@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'components/bottomBar.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -42,6 +43,12 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 4,
+        onItemSelected: (index) {
+          // Handle navigation
+        },
       ),
     );
   }

@@ -5,18 +5,25 @@ import 'components/DocumentDetails.dart';
 import 'components/DocumentTags.dart';
 import 'components/DocumentDescription.dart';
 import 'components/ReviewContainer.dart';
+import 'components/bottomBar.dart';
+import 'components/CustomAppBar.dart';
+import 'styles.dart';
 
 class DocumentPage2 extends StatelessWidget {
   static final pageRoute = '/DocumentPage';
+  final Map<String, String> document;
+  final int currentIndex;
+
+  DocumentPage2({required this.document, required this.currentIndex});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: CustomAppBar(),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          DocumentHeader(),
-          SizedBox(height: 16),
+          DocumentHeader(document: document),
           SizedBox(height: 16),
           DocumentActions(),
           Divider(height: 32, thickness: 1, color: Colors.black26),
@@ -29,6 +36,12 @@ class DocumentPage2 extends StatelessWidget {
           SizedBox(height: 16),
           ReviewContainer(),
         ],
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: currentIndex,
+        onItemSelected: (index) {
+          Navigator.pop(context);
+        },
       ),
     );
   }

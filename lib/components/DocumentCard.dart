@@ -19,16 +19,16 @@ class DocumentCard extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    // Set fixed height and width for the card as a fraction of the screen size
-    final cardHeight = screenHeight * 0.45; // 30% of screen height
-    final cardWidth = screenWidth * 0.3; // 40% of screen width
+    // Set fixed height and width for the card
+    final cardHeight = screenHeight * 0.35;
+    final cardWidth = screenWidth * 0.4;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 2),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       width: cardWidth,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -43,14 +43,16 @@ class DocumentCard extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
                 child: Image.network(
                   imageUrl,
-                  height: cardHeight * 0.6, // Set image height as a percentage of card height
+                  height: cardHeight * 0.6,
                   width: cardWidth,
-                  fit: BoxFit.cover, // Ensures tall images are cropped to fit
+                  fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    // Placeholder if the image fails to load
                     return Container(
                       height: cardHeight * 0.6,
                       color: Colors.grey[300],
@@ -70,32 +72,71 @@ class DocumentCard extends StatelessWidget {
                   top: 8,
                   right: 8,
                   child: Container(
-                    color: Colors.blue,
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     child: Text(
                       'PDF',
-                      style: TextStyle(color: Colors.white, fontSize: 10),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Uploaded by: $uploaderName',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                  maxLines: 1,
+                  'UPLOADED BY',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 2),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 10,
+                      backgroundColor: Colors.orange,
+                      child: Icon(
+                        Icons.person,
+                        size: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        uploaderName,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

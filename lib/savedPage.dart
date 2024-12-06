@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './components/listBox.dart';
+import 'components/bottomBar.dart';
 
 class SavedPage extends StatefulWidget {
   const SavedPage({super.key});
@@ -76,6 +77,14 @@ class _SavedPageState extends State<SavedPage> {
           ),
           ListBox(),
         ],
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 2,
+        onItemSelected: (index) {
+          setState(() {
+            // Handle navigation
+          });
+        },
       ),
     );
   }
