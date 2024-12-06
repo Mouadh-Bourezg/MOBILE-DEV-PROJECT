@@ -5,9 +5,9 @@ import 'components/DocumentDetails.dart';
 import 'components/DocumentTags.dart';
 import 'components/DocumentDescription.dart';
 import 'components/ReviewContainer.dart';
-import 'components/bottomBar.dart';
 import 'components/CustomAppBar.dart';
 import 'styles.dart';
+import '../components/bottomBar.dart';
 
 class DocumentPage2 extends StatelessWidget {
   static final pageRoute = '/DocumentPage';

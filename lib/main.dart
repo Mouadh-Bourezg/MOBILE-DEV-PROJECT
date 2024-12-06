@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import './HomePage.dart';
 import './savedPage.dart';
+import './SearchPage.dart';
+import './uploadDocument.dart';
+import './documentPage.dart';
 import './myProfilePage.dart';
 import './styles.dart';
 import 'components/bottomBar.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -29,8 +33,10 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomePage(showBottomBar: false), // Pass parameter to hide bottom bar
-    SavedPage(),
+    HomePage(), // Keep showBottomBar parameter if needed
+    SearchPage(),
+    uploadDocumentPage(),
+    documentPage(),
     ProfilePage(),
   ];
 
@@ -41,14 +47,7 @@ class _MainPageState extends State<MainPage> {
         index: _currentIndex,
         children: _pages,
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: _currentIndex,
-        onItemSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
+      // Remove bottomNavigationBar
     );
   }
 }
