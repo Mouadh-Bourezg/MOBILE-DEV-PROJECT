@@ -18,7 +18,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 60,
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -29,11 +29,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
             spreadRadius: 1,
           ),
         ],
-        border: Border(top: BorderSide(color: Colors.black, width: 3)),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
+        border: Border(top: BorderSide(color: Colors.black, width: 0.3)),
+
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

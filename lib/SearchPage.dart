@@ -69,39 +69,32 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            color: Colors.yellow,
-          ),
-        ),
-        backgroundColor: Colors.yellow.shade800,
-        title: Text(
-          "Search",
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 20,),
           // Search Bar
           Container(
-            color: Colors.yellow,
+            color: Colors.white,
             padding: EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
               onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: "Title, author, genre, topic",
-                prefixIcon: Icon(Icons.search, color: Colors.black),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: Colors.black),
+                hintStyle: TextStyle(
+                  color: Colors.grey,
                 ),
-                filled: true,
+
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(width: 0.5, color: Colors.black), // Enabled border
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(width: 2, color: Colors.orange), // Focused border
+                ),
+                prefixIcon: Icon(Icons.search, color: Colors.orange),
                 fillColor: Colors.white,
                 suffixIcon: _showResults
                     ? IconButton(
@@ -110,12 +103,15 @@ class _SearchPageState extends State<SearchPage> {
                       )
                     : null,
               ),
+              cursorColor: Colors.orange,
+              cursorWidth: 0.7,
+
             ),
           ),
           // Category List or Search Results
           Expanded(
             child: Container(
-              color: Color(0xFFFBE4C7), // Beige background
+              color: Colors.white,
               child: _showResults
                   ? ListView(
                       padding:
@@ -135,14 +131,10 @@ class _SearchPageState extends State<SearchPage> {
                         );
                       }).toList(),
                     )
-                  : ListView.separated(
+                  : ListView.builder(
                       padding:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                       itemCount: 10, // Example category count
-                      separatorBuilder: (context, index) => Divider(
-                        color: Colors.black,
-                        thickness: 1.0,
-                      ),
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(
