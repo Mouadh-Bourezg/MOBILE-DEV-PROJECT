@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(0),
         child: Column(
           children: [
             _buildHeader(),
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildCategory(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
       child: Text(
         title,
         style: TextStyle(
