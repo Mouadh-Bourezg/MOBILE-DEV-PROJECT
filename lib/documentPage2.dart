@@ -32,9 +32,6 @@ class DocumentPage2 extends StatelessWidget {
           DocumentTags(),
           Divider(height: 32, thickness: 1, color: Colors.black26),
           DocumentDescription(),
-          Divider(height: 32, thickness: 1, color: Colors.black26),
-          SizedBox(height: 16),
-          ReviewContainer(),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

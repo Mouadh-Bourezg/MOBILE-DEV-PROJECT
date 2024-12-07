@@ -39,31 +39,35 @@ class DocumentImage extends StatelessWidget {
         border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Stack(
-        children: [
-          Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-            width: 100,
-            height: 120,
-          ),
-          Positioned(
-            bottom: 5,
-            right: 5,
-            child: Container(
-              color: Colors.blue,
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              child: Text(
-                'PDF',
-                style: TextStyle(color: Colors.white, fontSize: 10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8), // Ensure clipping matches the container's radius
+        child: Stack(
+          children: [
+            Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+              width: 100,
+              height: 120,
+            ),
+            Positioned(
+              bottom: 5,
+              right: 5,
+              child: Container(
+                color: Colors.orange,
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                child: Text(
+                  'PDF',
+                  style: TextStyle(color: Colors.white, fontSize: 10),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
 
 class DocumentTitleAndUploader extends StatelessWidget {
   final String title;
@@ -87,7 +91,7 @@ class DocumentTitleAndUploader extends StatelessWidget {
               Text('Uploaded by :'),
               SizedBox(width: 8),
               CircleAvatar(
-                backgroundImage: NetworkImage('data:image/jpeg;base64,...'), // Replace with actual image URL
+                backgroundImage: AssetImage('assets/glasses-1052010_640.jpg'), // Replace with actual image URL
               ),
               SizedBox(width: 8),
               Text(
@@ -109,8 +113,8 @@ class ReadNowButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.blue,
-          backgroundColor: Colors.blue,
+          foregroundColor: Colors.orange,
+          backgroundColor: Colors.orange,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

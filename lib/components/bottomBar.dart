@@ -19,7 +19,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 50),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

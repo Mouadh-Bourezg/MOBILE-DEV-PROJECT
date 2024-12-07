@@ -9,20 +9,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFFBE4C7), // Beige background
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Row(
@@ -35,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
               child: CircleAvatar(
                 backgroundColor: Colors.orange,
-                radius: 20,
+                radius: 17,
                 child: Icon(
                   Icons.arrow_back,
                   color: Colors.white,
@@ -49,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
               child: CircleAvatar(
                 backgroundColor: Colors.red,
-                radius: 20,
+                radius: 17,
                 child: Icon(
                   Icons.error_outline,
                   color: Colors.white,

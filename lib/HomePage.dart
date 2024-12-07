@@ -20,19 +20,18 @@ class _HomePageState extends State<HomePage> {
     {
       "title": "Business Plan - Template: Professional",
       "uploader": "Anes Abderrahim Chahira",
-      "imageUrl": "data:image/jpeg;base64,...", // Truncated for brevity
+      "imageUrl": "../assets/glasses-1052010_640.jpg",
     },
     {
       "title": "Market Analysis Report",
       "uploader": "John Doe",
-      "imageUrl": "data:image/jpeg;base64,...", // Truncated for brevity
+      "imageUrl": "../assets/glasses-1052010_640.jpg",
     },
     {
       "title": "Startup Guide",
       "uploader": "Jane Smith",
-      "imageUrl": "data:image/jpeg;base64,...", // Truncated for brevity
+      "imageUrl": "../assets/glasses-1052010_640.jpg",
     },
-    // Add more documents as needed
   ];
 
   void _navigateToDocumentPage(Map<String, String> document) {
@@ -48,15 +47,61 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          children: [
-            _buildHeader(),
-            SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                children: [
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          // Optionally handle scroll events here
+          return false;
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 130.0,
+              floating: false,
+              pinned: true,
+              flexibleSpace: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Calculate the collapse progress
+                  double collapseProgress =
+                  (1.0 - (constraints.maxHeight - kToolbarHeight) / (130.0 - kToolbarHeight))
+                      .clamp(0.0, 1.0);
+
+                  return Stack(
+                    children: [
+                      // Logo (fades out as scrolling progresses)
+                      Opacity(
+                        opacity: (1.0 - collapseProgress).clamp(0.0, 1.0),
+                        child: Center(
+                          child: Image.asset(
+                            '../assets/logo.png',
+                            width: 120,
+                            height: 110,
+                          ),
+                        ),
+                      ),
+                      // App name (fades in as scrolling progresses)
+                      Opacity(
+                        opacity: collapseProgress,
+                        child: Center(
+                          child: Text(
+                            'BiblioMate',
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            // Main content
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  SizedBox(height: 10),
                   _buildCategory("Latest Uploads"),
                   _buildDocumentRow(),
                   SizedBox(height: 16),
@@ -73,27 +118,14 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: widget.showBottomBar
           ? CustomBottomNavigationBar(
-              currentIndex: _currentIndex,
-              onItemSelected: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            )
+        currentIndex: _currentIndex,
+        onItemSelected: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      )
           : null,
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      width: 430,
-      height: 130,
-      alignment: Alignment.center,
-      child: Image.asset(
-        '../assets/logo.png', // Replace with your logo asset path
-        width: 120,
-        height: 110,
-      ),
     );
   }
 
@@ -103,7 +135,10 @@ class _HomePageState extends State<HomePage> {
       child: Text(
         title,
         style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: Colors.black,
+        ),
       ),
     );
   }
