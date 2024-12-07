@@ -14,7 +14,7 @@ class DocumentDescription extends StatelessWidget {
           onTap: () {},
           child: Text(
             'Show more',
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
           ),
         ),
       ],

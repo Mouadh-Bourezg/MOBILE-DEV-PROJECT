@@ -41,18 +41,6 @@ class DocumentPage2 extends StatelessWidget {
           Divider(height: 32, thickness: 1, color: Colors.black26),
           SizedBox(height: 16),
           ReviewContainer(),
-          ElevatedButton(
-            onPressed: () async {
-              String pdfPath = await _loadPdfFromAssets('assets/demo.pdf');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PdfReaderPage(pdfPath: pdfPath),
-                ),
-              );
-            },
-            child: Text('Read Now'),
-          ),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

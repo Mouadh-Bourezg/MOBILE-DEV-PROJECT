@@ -37,14 +37,27 @@ class _SearchPageState extends State<SearchPage> {
     // Add more documents as needed
   ];
 
+  final List<Map<String, dynamic>> categories = [
+    {"title": "Business", "icon": Icons.business},
+    {"title": "Technology", "icon": Icons.computer},
+    {"title": "Self-Help", "icon": Icons.self_improvement},
+    {"title": "Education", "icon": Icons.school},
+    {"title": "Fiction", "icon": Icons.book},
+    {"title": "Non-Fiction", "icon": Icons.menu_book},
+    {"title": "Health & Fitness", "icon": Icons.fitness_center},
+    {"title": "Travel", "icon": Icons.travel_explore},
+    {"title": "Science", "icon": Icons.science},
+    {"title": "History", "icon": Icons.history_edu},
+  ];
+
   void _onSearchChanged(String query) {
     setState(() {
       _showResults = query.isNotEmpty;
       _searchResults = documents
           .where((doc) =>
-              doc["title"]!.toLowerCase().contains(query.toLowerCase()) ||
-              doc["uploader"]!.toLowerCase().contains(query.toLowerCase()) ||
-              doc["description"]!.toLowerCase().contains(query.toLowerCase()))
+      doc["title"]!.toLowerCase().contains(query.toLowerCase()) ||
+          doc["uploader"]!.toLowerCase().contains(query.toLowerCase()) ||
+          doc["description"]!.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
@@ -72,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 20,),
+          SizedBox(height: 20),
           // Search Bar
           Container(
             color: Colors.white,
@@ -85,10 +98,9 @@ class _SearchPageState extends State<SearchPage> {
                 hintStyle: TextStyle(
                   color: Colors.grey,
                 ),
-
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide(width: 0.5, color: Colors.black), // Enabled border
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(width: 2, color: Colors.orange), // Focused border
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -98,14 +110,13 @@ class _SearchPageState extends State<SearchPage> {
                 fillColor: Colors.white,
                 suffixIcon: _showResults
                     ? IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: _clearSearch,
-                      )
+                  icon: Icon(Icons.clear),
+                  onPressed: _clearSearch,
+                )
                     : null,
               ),
               cursorColor: Colors.orange,
               cursorWidth: 0.7,
-
             ),
           ),
           // Category List or Search Results
@@ -114,46 +125,47 @@ class _SearchPageState extends State<SearchPage> {
               color: Colors.white,
               child: _showResults
                   ? ListView(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      children: _searchResults.map((doc) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: GestureDetector(
-                            onTap: () => _navigateToDocumentPage(doc),
-                            child: DocumentCard(
-                              title: doc["title"]!,
-                              uploaderName: doc["uploader"]!,
-                              imageUrl: doc["imageUrl"]!,
-                              isPdf: true,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    )
-                  : ListView.builder(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      itemCount: 10, // Example category count
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            "Category $index",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          onTap: () {
-                            // Placeholder for action when a category is tapped
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text("Tapped on Category $index")),
-                            );
-                          },
-                        );
-                      },
+                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                children: _searchResults.map((doc) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: GestureDetector(
+                      onTap: () => _navigateToDocumentPage(doc),
+                      child: DocumentCard(
+                        title: doc["title"]!,
+                        uploaderName: doc["uploader"]!,
+                        imageUrl: doc["imageUrl"]!,
+                        isPdf: true,
+                      ),
                     ),
+                  );
+                }).toList(),
+              )
+                  : ListView.builder(
+                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return ListTile(
+                    leading: Icon(category['icon'], color: Colors.orange),
+                    title: Text(
+                      category['title'],
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    onTap: () {
+                      // Placeholder for action when a category is tapped
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Tapped on ${category['title']}"),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],
