@@ -30,7 +30,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
         ],
         border: Border(top: BorderSide(color: Colors.black, width: 0.3)),
-
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +87,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         page = uploadDocumentPage();
         break;
       case 3:
-        page = documentPage();
+        page = const SavedPage();
         break;
       case 4:
         page = ProfilePage();
