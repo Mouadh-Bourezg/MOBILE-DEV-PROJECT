@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DocumentActions extends StatelessWidget {
+  final VoidCallback onAddToList;
+
+  DocumentActions({required this.onAddToList});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -8,7 +12,10 @@ class DocumentActions extends StatelessWidget {
       children: [
         ActionIcon(icon: Icons.download, label: 'Download (0.3MB)'),
         //ActionIcon(icon: Icons.save, label: 'Save'),
-        ActionIcon(icon: Icons.playlist_add, label: 'Add to list'),
+        IconButton(
+          icon: Icon(Icons.playlist_add),
+          onPressed: onAddToList,
+        ),
       ],
     );
   }

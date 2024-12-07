@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/pdf_reader_page.dart';
 
 class DocumentHeader extends StatelessWidget {
   final Map<String, String> document;
@@ -40,7 +41,8 @@ class DocumentImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8), // Ensure clipping matches the container's radius
+        borderRadius: BorderRadius.circular(
+            8), // Ensure clipping matches the container's radius
         child: Stack(
           children: [
             Image.network(
@@ -53,7 +55,10 @@ class DocumentImage extends StatelessWidget {
               bottom: 5,
               right: 5,
               child: Container(
-                color: Colors.orange,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.orange,
+                ),
                 padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 child: Text(
                   'PDF',
@@ -67,7 +72,6 @@ class DocumentImage extends StatelessWidget {
     );
   }
 }
-
 
 class DocumentTitleAndUploader extends StatelessWidget {
   final String title;
@@ -91,7 +95,8 @@ class DocumentTitleAndUploader extends StatelessWidget {
               Text('Uploaded by :'),
               SizedBox(width: 8),
               CircleAvatar(
-                backgroundImage: AssetImage('assets/glasses-1052010_640.jpg'), // Replace with actual image URL
+                backgroundImage: AssetImage(
+                    'assets/glasses-1052010_640.jpg'), // Replace with actual image URL
               ),
               SizedBox(width: 8),
               Text(
@@ -111,7 +116,15 @@ class ReadNowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PdfReaderPage(
+                      pdfPath: "assets/demo.pdf",
+                    )),
+          );
+        },
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.orange,
           backgroundColor: Colors.orange,
@@ -127,4 +140,3 @@ class ReadNowButton extends StatelessWidget {
     );
   }
 }
-

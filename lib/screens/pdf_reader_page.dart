@@ -74,26 +74,37 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
     await _storageService.saveBookmarks(widget.pdfPath, _bookmarks);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Bookmark added to page ${_currentPage + 1}')),
+      SnackBar(
+        content: Text('Bookmark added to page ${_currentPage + 1}'),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
     );
   }
 
   void _showBookmarks() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => ListView.builder(
-        itemCount: _bookmarks.length,
-        itemBuilder: (context, index) {
-          final bookmark = _bookmarks[index];
-          return ListTile(
-            title: Text('Page ${bookmark.pageNumber + 1}'),
-            subtitle: Text(DateFormat.yMMMd().format(bookmark.timestamp)),
-            onTap: () {
-              _pdfViewController!.setPage(bookmark.pageNumber);
-              Navigator.pop(context);
-            },
-          );
-        },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: ListView.builder(
+          itemCount: _bookmarks.length,
+          itemBuilder: (context, index) {
+            final bookmark = _bookmarks[index];
+            return ListTile(
+              leading: const Icon(Icons.bookmark, color: Colors.blue),
+              title: Text('Page ${bookmark.pageNumber + 1}'),
+              subtitle: Text(DateFormat.yMMMd().format(bookmark.timestamp)),
+              onTap: () {
+                _pdfViewController!.setPage(bookmark.pageNumber);
+                Navigator.pop(context);
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -108,19 +119,29 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PDF Reader'),
+        title: const Text('PDF Reader',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
-          IconButton(
-            icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
-            onPressed: _toggleDarkMode,
+          Tooltip(
+            message: 'Toggle Dark Mode',
+            child: IconButton(
+              icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
+              onPressed: _toggleDarkMode,
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.bookmark_border),
-            onPressed: _addBookmark,
+          Tooltip(
+            message: 'Add Bookmark',
+            child: IconButton(
+              icon: const Icon(Icons.bookmark_border),
+              onPressed: _addBookmark,
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.bookmarks),
-            onPressed: _showBookmarks,
+          Tooltip(
+            message: 'View Bookmarks',
+            child: IconButton(
+              icon: const Icon(Icons.bookmarks),
+              onPressed: _showBookmarks,
+            ),
           ),
         ],
       ),
@@ -129,7 +150,7 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
           : Stack(
               children: [
                 _localPdfPath == null
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : PDFView(
                         filePath: _localPdfPath,
                         enableSwipe: true,
@@ -173,29 +194,17 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
     );
   }
 
-  Future<String> loadPdf() async {
-    final fileName = widget.pdfPath.split('/').last;
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/$fileName');
-
-    if (!await file.exists()) {
-      ByteData bytes = await rootBundle.load(widget.pdfPath);
-      await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
-    }
-
-    return file.path;
-  }
-
   Widget _buildControls() {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: _isDarkMode ? Colors.grey[900] : Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -204,7 +213,7 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
         children: [
           LinearProgressIndicator(
             value: _totalPages == 0 ? 0 : (_currentPage + 1) / _totalPages,
-            backgroundColor: _isDarkMode ? Colors.grey[800] : Colors.grey[200],
+            backgroundColor: _isDarkMode ? Colors.grey[800] : Colors.grey[300],
             valueColor: AlwaysStoppedAnimation<Color>(
               _isDarkMode ? Colors.orange : Colors.blue,
             ),
@@ -218,11 +227,13 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
                 onPressed: _currentPage > 0
                     ? () => _pdfViewController?.setPage(_currentPage - 1)
                     : null,
+                tooltip: 'Previous Page',
               ),
               Text(
                 'Page ${_currentPage + 1} of $_totalPages',
                 style: TextStyle(
                   color: _isDarkMode ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               IconButton(
@@ -230,6 +241,7 @@ class _PdfReaderPageState extends State<PdfReaderPage> {
                 onPressed: _currentPage < _totalPages - 1
                     ? () => _pdfViewController?.setPage(_currentPage + 1)
                     : null,
+                tooltip: 'Next Page',
               ),
             ],
           ),

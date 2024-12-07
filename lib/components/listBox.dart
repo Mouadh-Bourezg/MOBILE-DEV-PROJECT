@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 
 class DocumentCard extends StatelessWidget {
   final String title;
-  final String uploaderName;
+  final int numberoftitles;
   final String imageUrl;
-  final bool isPdf;
-  final String status; // readNow, continueReading, finished
 
   DocumentCard({
     required this.title,
-    required this.uploaderName,
     required this.imageUrl,
-    required this.status,
-    this.isPdf = false,
+    required this.numberoftitles,
   });
 
   @override
@@ -69,26 +65,6 @@ class DocumentCard extends StatelessWidget {
                   },
                 ),
               ),
-              if (isPdf)
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    child: Text(
-                      'PDF',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
             ],
           ),
           Padding(
@@ -105,69 +81,15 @@ class DocumentCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 4),
                 Text(
-                  'UPLOADED BY',
+                  "Titles ${numberoftitles.toString()}",
                   style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.grey,
+                    fontSize: 14,
                   ),
-                ),
-                SizedBox(height: 2),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 10,
-                      backgroundColor: Colors.orange,
-                      child: Icon(
-                        Icons.person,
-                        size: 12,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        uploaderName,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: status == 'finished'
-                        ? Colors.green
-                        : status == 'continueReading'
-                            ? Colors.orange
-                            : Colors.red,
-                    minimumSize: Size(double.infinity, 36),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 5,
-                    shadowColor: Colors.black45,
-                  ),
-                  child: Text(
-                    status == 'finished'
-                        ? 'Finished'
-                        : status == 'continueReading'
-                            ? 'Continue Reading'
-                            : 'Read Now',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

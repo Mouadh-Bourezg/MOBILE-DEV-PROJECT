@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-class DocumentCard extends StatelessWidget {
+class DocumentCardInList extends StatelessWidget {
   final String title;
   final String uploaderName;
+  final String description;
   final String imageUrl;
   final bool isPdf;
+  final String status; // readNow, continueReading, finished
 
-  DocumentCard({
+  DocumentCardInList({
     required this.title,
     required this.uploaderName,
+    required this.description,
     required this.imageUrl,
+    required this.status,
     this.isPdf = false,
   });
 
@@ -20,20 +24,20 @@ class DocumentCard extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Set fixed height and width for the card
-    final cardHeight = screenHeight * 0.35;
-    final cardWidth = screenWidth * 0.4;
+    final cardHeight = screenHeight * 0.3;
+    final cardWidth = screenWidth * 0.9;
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       width: cardWidth,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(0, 2),
+            blurRadius: 6,
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -44,19 +48,17 @@ class DocumentCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
                 ),
                 child: Image.network(
                   imageUrl,
-                  height: cardHeight * 0.6,
-                  width: double.infinity, // Make the width fill the container
+                  height: cardHeight * 0.5,
+                  width: cardWidth,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
-                      height: cardHeight * 0.6,
-                      width: double
-                          .infinity, // Ensure placeholder also fills the container
+                      height: cardHeight * 0.5,
                       color: Colors.grey[300],
                       child: Center(
                         child: Icon(
@@ -92,7 +94,7 @@ class DocumentCard extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,45 +102,57 @@ class DocumentCard extends StatelessWidget {
                   title,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 16,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'Uploaded by: $uploaderName',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[700],
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'UPLOADED BY',
+                  description,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                     color: Colors.grey[600],
-                    fontWeight: FontWeight.bold,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 2),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 10,
-                      backgroundColor: Colors.orange,
-                      child: Icon(
-                        Icons.person,
-                        size: 12,
-                        color: Colors.white,
-                      ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: status == 'finished'
+                        ? Colors.green
+                        : status == 'continueReading'
+                            ? Colors.orange
+                            : Colors.red,
+                    minimumSize: Size(double.infinity, 36),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        uploaderName,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  ),
+                  child: Text(
+                    status == 'finished'
+                        ? 'Finished'
+                        : status == 'continueReading'
+                            ? 'Continue Reading'
+                            : 'Read Now',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

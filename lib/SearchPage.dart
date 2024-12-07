@@ -20,19 +20,19 @@ class _SearchPageState extends State<SearchPage> {
       "title": "Business Plan - Template: Professional",
       "uploader": "Anes Abderrahim Chahira",
       "description": "A comprehensive business plan template.",
-      "imageUrl": "data:image/jpeg;base64,...", // Truncated for brevity
+      "imageUrl": "assets/glasses-1052010_640.jpg", // Truncated for brevity
     },
     {
       "title": "Market Analysis Report",
       "uploader": "John Doe",
       "description": "Detailed market analysis report.",
-      "imageUrl": "data:image/jpeg;base64,...", // Truncated for brevity
+      "imageUrl": "assets/glasses-1052010_640.jpg", // Truncated for brevity
     },
     {
       "title": "Startup Guide",
       "uploader": "Jane Smith",
       "description": "A guide for startups.",
-      "imageUrl": "data:image/jpeg;base64,...", // Truncated for brevity
+      "imageUrl": "assets/glasses-1052010_640.jpg", // Truncated for brevity
     },
     // Add more documents as needed
   ];

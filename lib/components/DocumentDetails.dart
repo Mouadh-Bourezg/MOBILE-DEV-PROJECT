@@ -11,7 +11,8 @@ class DocumentDetails extends StatelessWidget {
           children: [
             Text('Rating', style: TextStyle(fontWeight: FontWeight.bold)),
             Row(
-              children: List.generate(5, (index) => Icon(Icons.star, color: Colors.orange, size: 16)),
+              children: List.generate(5,
+                  (index) => Icon(Icons.star, color: Colors.orange, size: 16)),
             ),
           ],
         ),

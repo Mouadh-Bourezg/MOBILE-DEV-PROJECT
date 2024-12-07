@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'components/listBox.dart';
 import 'components/bottomBar.dart';
+import 'components/documentCardInList.dart'; // Import the new component
 
 class SavedPage extends StatefulWidget {
   const SavedPage({super.key});
+
+  static Map<String, List<Map<String, String>>> savedLists = {
+    'Demo List 1': [],
+    'Demo List 2': [],
+    'Demo List 3': []
+  }; // Store the saved lists with documents
 
   @override
   State<SavedPage> createState() => _SavedPageState();
@@ -11,11 +18,6 @@ class SavedPage extends StatefulWidget {
 
 class _SavedPageState extends State<SavedPage> {
   String? listName; // Store the input list name.
-  List<String> savedLists = [
-    'Demo List 1',
-    'Demo List 2',
-    'Demo List 3'
-  ]; // Store the saved lists
 
   void _showCreateListDialog() {
     showDialog(
@@ -24,7 +26,10 @@ class _SavedPageState extends State<SavedPage> {
         return AlertDialog(
           title: Text('Create a New List'),
           content: TextField(
-            decoration: InputDecoration(hintText: 'Enter list name'),
+            decoration: InputDecoration(
+              hintText: 'Enter list name',
+              border: OutlineInputBorder(),
+            ),
             onChanged: (value) {
               setState(() {
                 listName = value;
@@ -33,16 +38,26 @@ class _SavedPageState extends State<SavedPage> {
           ),
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red, // Text color
+              ),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog.
               },
               child: Text('Cancel'),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange, // Button color
+                foregroundColor: Colors.white, // Text color
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
               onPressed: () {
                 // Perform list creation logic
                 if (listName != null && listName!.trim().isNotEmpty) {
-                  savedLists.add(listName!.trim());
+                  SavedPage.savedLists[listName!.trim()] = [];
                   print('List created: $listName'); // Replace with your logic.
                   listName = null;
                   Navigator.of(context).pop(); // Close the dialog.
@@ -61,16 +76,22 @@ class _SavedPageState extends State<SavedPage> {
     );
   }
 
+  void _navigateToListDetails(String listName) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ListDetailsPage(listName: listName),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Saved'),
-        backgroundColor: Colors.orange,
-      ),
       body: ListView(
         padding: EdgeInsets.all(8.0),
         children: [
+          SizedBox(height: 20),
           GestureDetector(
             onTap: _showCreateListDialog,
             child: ListTile(
@@ -83,14 +104,15 @@ class _SavedPageState extends State<SavedPage> {
             thickness: 1,
           ),
           Column(
-            children: savedLists.map((listName) {
-              return DocumentCard(
-                title: listName,
-                uploaderName:
-                    'Uploader Name', // Replace with actual uploader name
-                imageUrl:
-                    'assets/glasses-1052010_640.jpg', // Replace with actual image URL
-                status: 'continueReading', // Replace with actual status
+            children: SavedPage.savedLists.keys.map((listName) {
+              return GestureDetector(
+                onTap: () => _navigateToListDetails(listName),
+                child: DocumentCard(
+                  title: listName,
+                  numberoftitles: SavedPage.savedLists[listName]?.length ?? 0,
+                  imageUrl:
+                      'assets/glasses-1052010_640.jpg', // Replace with actual image URL
+                ),
               );
             }).toList(),
           ),
@@ -103,6 +125,34 @@ class _SavedPageState extends State<SavedPage> {
             // Handle navigation
           });
         },
+      ),
+    );
+  }
+}
+
+class ListDetailsPage extends StatelessWidget {
+  final String listName;
+
+  const ListDetailsPage({required this.listName});
+
+  @override
+  Widget build(BuildContext context) {
+    final documents = SavedPage.savedLists[listName] ?? [];
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(listName),
+      ),
+      body: ListView(
+        padding: EdgeInsets.all(8.0),
+        children: documents.map((document) {
+          return DocumentCardInList(
+            title: document['title'] ?? 'Unknown Title',
+            uploaderName: document['uploaderName'] ?? 'Unknown Uploader',
+            description: document['description'] ?? 'No Description',
+            imageUrl: document['imageUrl'] ?? '',
+            status: document['status'] ?? 'readNow',
+          );
+        }).toList(),
       ),
     );
   }

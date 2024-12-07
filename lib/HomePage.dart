@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DocumentPage2(document: document, currentIndex: _currentIndex),
+        builder: (context) =>
+            DocumentPage2(document: document, currentIndex: _currentIndex),
       ),
     );
   }
@@ -61,8 +62,9 @@ class _HomePageState extends State<HomePage> {
               flexibleSpace: LayoutBuilder(
                 builder: (context, constraints) {
                   // Calculate the collapse progress
-                  double collapseProgress =
-                  (1.0 - (constraints.maxHeight - kToolbarHeight) / (130.0 - kToolbarHeight))
+                  double collapseProgress = (1.0 -
+                          (constraints.maxHeight - kToolbarHeight) /
+                              (130.0 - kToolbarHeight))
                       .clamp(0.0, 1.0);
 
                   return Stack(
